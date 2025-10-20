@@ -3,6 +3,8 @@ package com.example.demo;
 import jakarta.persistence.*;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name="t_student")
 public class Student {
@@ -10,6 +12,17 @@ public class Student {
 	@Id
 	@GeneratedValue(strategy=GenerationType.UUID)
 	private UUID id;
+	
+	@OneToOne(
+			mappedBy="student",
+			cascade=CascadeType.ALL
+			)
+	private StudentProfile studentProfile;
+	
+	@ManyToOne
+	@JoinColumn(name= "school_id")
+	@JsonBackReference
+	private School school;
 	
 	@Column(
 			name="f_name",
@@ -60,5 +73,21 @@ public class Student {
 	}
 	public void setAge(int age) {
 		this.age = age;
+	}
+	
+	public StudentProfile getStudentProfile() {
+		return studentProfile;
+	}
+
+	public void setStudentProfile(StudentProfile studentProfile) {
+		this.studentProfile = studentProfile;
+	}
+
+	public School getSchool() {
+		return school;
+	}
+
+	public void setSchool(School school) {
+		this.school = school;
 	}
 }
