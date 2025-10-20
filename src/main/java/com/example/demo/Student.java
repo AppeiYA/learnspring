@@ -1,13 +1,15 @@
 package com.example.demo;
 
 import jakarta.persistence.*;
+import java.util.UUID;
 
 @Entity
 @Table(name="t_student")
 public class Student {
 	
 	@Id
-	private Integer id;
+	@GeneratedValue(strategy=GenerationType.UUID)
+	private UUID id;
 	
 	@Column(
 			name="f_name",
@@ -29,10 +31,10 @@ public class Student {
 		this.age = age;
 	}
 	
-	public Integer getId() {
+	public UUID getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 	public String getFirstname() {
