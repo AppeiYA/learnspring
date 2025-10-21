@@ -9,7 +9,6 @@ public class AppDtos {
 			String email,
 			UUID schoolId
 			) {
-		
 	}
 	
 	public static record StudentResponseDto(
@@ -17,6 +16,8 @@ public class AppDtos {
 			String lastname,
 			String email
 			) {
-		
 	}
+	public static record SchoolDto(
+			String name
+			) {}
 }

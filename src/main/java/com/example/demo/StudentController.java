@@ -2,6 +2,7 @@ package com.example.demo;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -46,18 +47,25 @@ public class StudentController {
 				student.getEmail()
 				);
 	}
+	
 	@GetMapping("/students")
-	public List<Student> findAll(
+	public List<AppDtos.StudentResponseDto> findAll(
 			@RequestParam(required=false) Integer age,
 			@RequestParam(required=false) String firstname
 			){
 		if(age != null) {
-			return repository.findAllByAge(age);
+			return  repository.findAllByAge(age).stream()
+					.map(student -> toStudentResponse(student))
+					.collect(Collectors.toList());
 		}
 		if(firstname != null) {
-			return repository.findAllByFirstnameContaining(firstname);
+			return repository.findAllByFirstnameContaining(firstname).stream()
+					.map(student -> toStudentResponse(student))
+					.collect(Collectors.toList());
 		}
-		return repository.findAll();
+		return repository.findAll().stream()
+				.map(student -> toStudentResponse(student))
+				.collect(Collectors.toList());
 	}
 	
 	@GetMapping("/students/search/{firstname}")
@@ -66,8 +74,8 @@ public class StudentController {
 	}
 	
 	@GetMapping("/students/{studentId}")
-	public Student findById(@PathVariable UUID studentId) {
-		return repository.findById(studentId).orElse(new Student());
+	public AppDtos.StudentResponseDto findById(@PathVariable UUID studentId) {
+		return toStudentResponse(repository.findById(studentId).orElse(new Student()));
 	}
 	
 	@DeleteMapping("/students/{studentId}")
