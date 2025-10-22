@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.AppDtos;
 import com.example.demo.Services.StudentService;
 
+import jakarta.validation.*;
+
 @RestController
 public class StudentController {
 	
@@ -21,7 +23,9 @@ public class StudentController {
 
 	@PostMapping("/students")
 	@ResponseStatus(HttpStatus.CREATED)
-	public AppDtos.StudentResponseDto saveStudent(@RequestBody AppDtos.StudentDto payload) {
+	public AppDtos.StudentResponseDto saveStudent(
+			@Valid @RequestBody AppDtos.StudentDto payload
+			) {
 		return this.studentService.saveStudent(payload);
 	}
 	
