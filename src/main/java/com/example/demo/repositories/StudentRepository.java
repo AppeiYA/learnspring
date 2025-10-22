@@ -1,6 +1,9 @@
-package com.example.demo;
+package com.example.demo.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.example.demo.models.Student;
+
 import java.util.UUID;
 import java.util.List;
 
